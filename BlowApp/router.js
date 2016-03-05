@@ -1,16 +1,12 @@
-const FUNCTION_TYPE = 'function';
-
-function route(handle, pathname, response){
+function route(handle, pathname, response, postData) {
     console.log("About to route a request for " + pathname);
-    if(typeof handle[pathname]===FUNCTION_TYPE){
-        return handle[pathname](response);
+    if (typeof handle[pathname] === 'function') {
+        handle[pathname](response, postData);
     } else {
         console.log("No request handler found for " + pathname);
-        response.writeHead(200, {CONTENT_TYPE : TEXT_PLAIN});
-        response.write(pageContent);
+        response.writeHead(404, {"Content-Type": "text/plain"});
+        response.write("404 Not found");
         response.end();
-        return "404 Not found";
-    };
-};
-
+    }
+}
 exports.route = route;
